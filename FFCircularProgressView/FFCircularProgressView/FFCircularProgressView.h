@@ -21,6 +21,8 @@ typedef NS_ENUM (NSInteger, FFCircularState){
 
 @interface FFCircularProgressView : UIControl
 
+@property (nonatomic, assign) CGSize contentSize;
+
 /**
  * The progress of the view.
  **/
@@ -36,6 +38,8 @@ typedef NS_ENUM (NSInteger, FFCircularState){
  */
 @property (nonatomic, strong) UIColor *progressColor;
 
+@property (nonatomic, strong) UIColor *backgroundCircleColor;
+
 /**
  * The color of the tick view
  */
@@ -44,7 +48,8 @@ typedef NS_ENUM (NSInteger, FFCircularState){
 /**
  * Icon view to be rendered instead of default arrow
  */
-@property (nonatomic, strong) UIView* iconView;
+@property (nonatomic, strong) UIView* initialIconView;
+@property (nonatomic, strong) UIView* completedIconView;
 
 /**
  * Bezier path to be rendered instead of icon view or default arrow
@@ -55,13 +60,6 @@ typedef NS_ENUM (NSInteger, FFCircularState){
  * Indicates if the component is spinning
  */
 @property (nonatomic, readonly) BOOL isSpinning;
-
-@property (nonatomic, assign)enum FFCircularState circularState;
-
-
-- (UIBezierPath *)downArrowPath;
-
-- (UIBezierPath *)upArrowPath;
 
 /**
  * Make the background layer to spin around its center. This should be called in the main thread.
