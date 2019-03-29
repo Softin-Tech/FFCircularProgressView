@@ -87,7 +87,7 @@
     
     self.iconLayer = [CAShapeLayer layer];
     _iconLayer.contentsScale = [[UIScreen mainScreen] scale];
-    _iconLayer.strokeColor = _progressColor.CGColor;
+    _iconLayer.strokeColor = nil;
     _iconLayer.fillColor = nil;
     _iconLayer.lineCap = kCALineCapButt;
     _iconLayer.lineWidth = _lineWidth;
@@ -118,7 +118,6 @@
 - (void)setProgressColor:(UIColor *)tintColor {
     _progressColor = tintColor;
     _progressLayer.strokeColor = tintColor.CGColor;
-    _iconLayer.strokeColor = tintColor.CGColor;
 }
 
 - (void)setTickColor:(UIColor *)tickColor {
