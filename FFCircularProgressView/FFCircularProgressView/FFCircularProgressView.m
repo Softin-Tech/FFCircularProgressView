@@ -108,6 +108,9 @@
     [super layoutSubviews];
     _initialIconView.center = CGPointMake(self.bounds.size.width/2, self.bounds.size.height/2);
     _completedIconView.center = _initialIconView.center;
+    _progressBackgroundLayer.frame = [self contentFrame];
+    _progressLayer.frame = [self contentFrame];
+    _iconLayer.frame = [self contentFrame];
 }
 
 - (void)setBackgroundCircleColor:(UIColor *)backgroundCircleColor {
