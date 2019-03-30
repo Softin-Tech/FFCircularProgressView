@@ -210,13 +210,8 @@
     CGFloat ratio = kStopSizeRatio;
     CGFloat sideSize = _iconLayer.bounds.size.width * ratio;
     
-    UIBezierPath *stopPath = [UIBezierPath bezierPath];
-    [stopPath moveToPoint:CGPointMake(0, 0)];
-    [stopPath addLineToPoint:CGPointMake(sideSize, 0.0)];
-    [stopPath addLineToPoint:CGPointMake(sideSize, sideSize)];
-    [stopPath addLineToPoint:CGPointMake(0.0, sideSize)];
-    [stopPath closePath];
-    
+    UIBezierPath *stopPath = [self roundedPathFromRect:CGRectMake(0, 0, sideSize, sideSize) radius:0.5];
+
     // ...and move it into the right place.
     [stopPath applyTransform: CGAffineTransformMakeTranslation(radius * (1-ratio), radius* (1-ratio))];
     
@@ -300,6 +295,40 @@
                       (self.bounds.size.height - _contentSize.height) / 2,
                       _contentSize.width,
                       _contentSize.height);
+}
+
+- (UIBezierPath *)roundedPathFromRect:(CGRect)f radius:(CGFloat)radius {
+
+    UIBezierPath *path = [[UIBezierPath alloc] init];
+    
+    // Draw the path
+    [path moveToPoint:CGPointMake(radius, 0)];
+    [path addLineToPoint:CGPointMake(f.size.width - radius, 0)];
+    [path addArcWithCenter:CGPointMake(f.size.width - radius, radius)
+                    radius:radius
+                startAngle:- (M_PI / 2)
+                  endAngle:0
+                 clockwise:YES];
+    [path addLineToPoint:CGPointMake(f.size.width, f.size.height - radius)];
+    [path addArcWithCenter:CGPointMake(f.size.width - radius, f.size.height - radius)
+                    radius:radius
+                startAngle:0
+                  endAngle:- ((M_PI * 3) / 2)
+                 clockwise:YES];
+    [path addLineToPoint:CGPointMake(radius, f.size.height)];
+    [path addArcWithCenter:CGPointMake(radius, f.size.height - radius)
+                    radius:radius
+                startAngle:- ((M_PI * 3) / 2)
+                  endAngle:- M_PI
+                 clockwise:YES];
+    [path addLineToPoint:CGPointMake(0, radius)];
+    [path addArcWithCenter:CGPointMake(radius, radius)
+                    radius:radius
+                startAngle:- M_PI
+                  endAngle:- (M_PI / 2)
+                 clockwise:YES];
+    
+    return path;
 }
 
 @end
