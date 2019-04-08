@@ -68,6 +68,7 @@
     _progressColor = [UIColor colorWithRed:0 green:122/255.0 blue:1.0 alpha:1.0];
     _backgroundCircleColor = [UIColor grayColor];
     _tickColor = [UIColor whiteColor];
+    _drawsStop = true;
     
     self.progressBackgroundLayer = [CAShapeLayer layer];
     _progressBackgroundLayer.contentsScale = [[UIScreen mainScreen] scale];
@@ -106,8 +107,9 @@
 
 - (void)layoutSubviews {
     [super layoutSubviews];
+    
     _initialIconView.center = CGPointMake(self.bounds.size.width/2, self.bounds.size.height/2);
-    _completedIconView.center = _initialIconView.center;
+    _completedIconView.center = CGPointMake(self.bounds.size.width/2, self.bounds.size.height/2);
     _progressBackgroundLayer.frame = [self contentFrame];
     _progressLayer.frame = [self contentFrame];
     _iconLayer.frame = [self contentFrame];
@@ -191,17 +193,28 @@
     CGFloat startAngle = - ((float)M_PI / 2); // 90 degrees
     CGFloat endAngle = (self.progress * 2 * (float)M_PI) + startAngle;
     UIBezierPath *processPath = [UIBezierPath bezierPath];
-    processPath.lineCapStyle = kCGLineCapRound;
+    processPath.lineCapStyle = kCGLineCapButt;
     processPath.lineWidth = _lineWidth;
     
     CGPoint center = CGPointMake(_progressLayer.bounds.size.width/2, _progressLayer.bounds.size.height/2);
     CGFloat radius = center.x - _lineWidth;
+    
+    if (_fillsProgress) {
+        _progressLayer.fillColor = _progressLayer.strokeColor;
+        [processPath moveToPoint:center];
+    }
+    
     [processPath addArcWithCenter:center radius:radius startAngle:startAngle endAngle:endAngle clockwise:YES];
+    
+    if (_fillsProgress) {
+        [processPath closePath];
+    }
+    
     [_progressLayer setPath:processPath.CGPath];
 }
 
 - (void)drawStop {
-    if (_progress < 0 || _progress == 1) {
+    if (_progress < 0 || _progress == 1 || _drawsStop == NO) {
         _iconLayer.path = nil;
         return;
     }

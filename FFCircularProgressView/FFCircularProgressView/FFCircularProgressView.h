@@ -22,6 +22,8 @@ typedef NS_ENUM (NSInteger, FFCircularState){
 @interface FFCircularProgressView : UIControl
 
 @property (nonatomic, assign) CGSize contentSize;
+@property (nonatomic, assign) BOOL fillsProgress;
+@property (nonatomic, assign) BOOL drawsStop;
 
 /**
  * The progress of the view.
