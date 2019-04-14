@@ -199,14 +199,14 @@
     CGPoint center = CGPointMake(_progressLayer.bounds.size.width/2, _progressLayer.bounds.size.height/2);
     CGFloat radius = center.x - _lineWidth;
     
-    if (_fillsProgress) {
+    if (_fillsProgress && _progress > 0) {
         _progressLayer.fillColor = _progressLayer.strokeColor;
         [processPath moveToPoint:center];
     }
     
     [processPath addArcWithCenter:center radius:radius startAngle:startAngle endAngle:endAngle clockwise:YES];
     
-    if (_fillsProgress) {
+    if (_fillsProgress && _progress > 0) {
         [processPath closePath];
     }
     
